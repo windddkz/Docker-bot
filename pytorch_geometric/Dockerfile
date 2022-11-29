@@ -30,8 +30,8 @@ RUN mkdir /app
 WORKDIR /app
 
 # Create a non-root user and switch to it.
-RUN adduser --disabled-password --gecos '' --shell /bin/bash user \
- && chown -R user:user /app
+RUN adduser --disabled-password --gecos '' --shell /bin/bash user && \
+    chown -R user:user /app
 RUN echo "user ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/90-user
 USER user
 
@@ -40,28 +40,30 @@ ENV HOME=/home/user
 RUN chmod 777 /home/user
 
 # Install Miniconda.
-RUN curl -so ~/miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
- && chmod +x ~/miniconda.sh \
- && ~/miniconda.sh -b -p ~/miniconda \
- && rm ~/miniconda.sh
+RUN curl -so ~/miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh && \
+    chmod +x ~/miniconda.sh && \
+    ~/miniconda.sh -b -p ~/miniconda && \
+    rm ~/miniconda.sh
+
 ENV PATH=/home/user/miniconda/bin:$PATH
 ENV CONDA_AUTO_UPDATE_CONDA=false
 
 # Create a Python 3.10 environment.
-RUN /home/user/miniconda/bin/conda install conda-build \
- && /home/user/miniconda/bin/conda create -y --name py310 python=3.10 \
- && /home/user/miniconda/bin/conda clean -ya
+RUN /home/user/miniconda/bin/conda install conda-build && \
+    /home/user/miniconda/bin/conda create -y --name py310 python=3.10 && \
+    /home/user/miniconda/bin/conda clean -ya
 
 ENV CONDA_DEFAULT_ENV=py310
 ENV CONDA_PREFIX=/home/user/miniconda/envs/$CONDA_DEFAULT_ENV
 ENV PATH=$CONDA_PREFIX/bin:$PATH
 
-RUN export CPATH=/usr/local/cuda/include:$CPATH && \
-    export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH && \
-    export DYLD_LIBRARY_PATH=/usr/local/cuda/lib:$DYLD_LIBRARY_PATH && \
-    # conda install pyg -c pyg
+ENV CPATH=/usr/local/cuda/include:$CPATH
+ENV LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
+ENV DYLD_LIBRARY_PATH=/usr/local/cuda/lib:$DYLD_LIBRARY_PATH
+
 
 # Install PyTorch
+# conda install pyg -c pyg
 RUN conda install pytorch torchvision torchaudio pytorch-cuda=11.7 -c pytorch -c nvidia && \
     conda clean -ya
 
@@ -69,6 +71,3 @@ RUN conda install pytorch torchvision torchaudio pytorch-cuda=11.7 -c pytorch -c
 RUN pip install pyg-lib torch-scatter torch-sparse -f https://data.pyg.org/whl/torch-1.13.0+cu117.html && \
     pip install torch-cluster torch-spline-conv -f https://data.pyg.org/whl/torch-1.13.0+cu117.html && \
     pip install torch-geometric
-
-# Set the default command to python3.
-CMD ["python3"]
