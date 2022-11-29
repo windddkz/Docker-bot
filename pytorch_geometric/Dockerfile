@@ -12,13 +12,12 @@ RUN apt-get update && apt-get install -y apt-transport-https ca-certificates && 
 
 RUN apt-get update && apt-get install -y --no-install-recommends apt-utils gnupg2 curl && \
     apt-key del 7fa2af80 && \
-    curl -L -O https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-keyring_1.0-1_all.deb && \
-    dpkg -i cuda-keyring_1.0-1_all.deb && \
+    apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/3bf863cc.pub && \
+    apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64/7fa2af80.pub && \
     echo "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64 /" > /etc/apt/sources.list.d/cuda.list && \
     echo "deb https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64 /" > /etc/apt/sources.list.d/nvidia-ml.list &&\
     apt-get purge --autoremove -y curl && \
-    rm -rf /var/lib/apt/lists/* && \
-    rm -rf cuda-keyring_1.0-1_all.deb
+    rm -rf /var/lib/apt/lists/*
 
 ENV CUDA_VERSION 10.1.243
 ENV NCCL_VERSION 2.4.8
