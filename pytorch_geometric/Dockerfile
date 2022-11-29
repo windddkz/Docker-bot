@@ -68,6 +68,6 @@ RUN conda install pytorch torchvision torchaudio pytorch-cuda=11.7 -c pytorch -c
     conda clean -ya
 
 # Install PyG.
-RUN pip install pyg-lib torch-scatter torch-sparse -f https://data.pyg.org/whl/torch-1.13.0+cu117.html && \
-    pip install torch-cluster torch-spline-conv -f https://data.pyg.org/whl/torch-1.13.0+cu117.html && \
-    pip install torch-geometric
+RUN pip install pyg-lib torch-scatter torch-sparse -f https://data.pyg.org/whl/torch-1.13.0+cu117.html --no-cache-dir && \
+    pip install torch-cluster torch-spline-conv -f https://data.pyg.org/whl/torch-1.13.0+cu117.html --no-cache-dir && \
+    pip install torch-geometric --no-cache-dir
