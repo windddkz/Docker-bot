@@ -46,9 +46,11 @@ ENV CPATH=$CONDA_PREFIX/include:/usr/local/cuda/include:$CPATH
 ENV LIBRARY_PATH=$CONDA_PREFIX/lib/stubs:/usr/local/cuda/lib64/stubs:$LIBRARY_PATH
 ENV LD_LIBRARY_PATH=$CONDA_PREFIX/lib:/usr/local/cuda/lib64:$LD_LIBRARY_PATH
 ENV DYLD_LIBRARY_PATH=$CONDA_PREFIX/lib:/usr/local/cuda/lib64:$DYLD_LIBRARY_PATH
-ENV PATH=$CONDA_PREFIX/bin:/usr/local/cuda/bin:$PATH
+ENV PATH=$CONDA_PREFIX/bin:/home/pyg/miniconda/bin:/usr/local/cuda/bin:$PATH
 
+# Install Conda Deps
 # conda install pyg -c pyg
+RUN /home/pyg/miniconda/bin/conda install -n py310 -c conda-forge ncurses
 
 # Install PyTorch & PyG
 RUN pip3 install torch torchvision torchaudio --no-cache-dir && \
