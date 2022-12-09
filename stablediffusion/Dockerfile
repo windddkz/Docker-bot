@@ -11,6 +11,8 @@ RUN rm -rf /etc/apt/sources.list.d/cuda.list && \
     git \
     bzip2 \
     libx11-6 && \
+    libgl1-mesa-glx && \
+    libglib2.0-0 && \
     rm -rf /var/lib/apt/lists/*
 
 # Create a working directory.
@@ -59,19 +61,15 @@ RUN /home/sd/miniconda/bin/conda install -n py310 -c conda-forge ncurses && \
 # Install PyTorch & Transformer
 RUN pip3 install torch torchvision torchaudio --no-cache-dir
 
+# StableDiffusion
+RUN git clone https://github.com/Stability-AI/stablediffusion.git && \
+    cd stablediffusion && \
+    pip3 install -r requirements.txt --no-cache-dir && \
+    pip3 install -e .
+
 # xfomer
 RUN git clone https://github.com/facebookresearch/xformers.git && \
     cd xformers && \
     git submodule update --init --recursive && \
     pip3 install -r requirements.txt --no-cache-dir && \
-    pip3 install -e . && \
-    cd .. && \
-    rm -rf xformers
-
-# StableDiffusion
-RUN git clone https://github.com/Stability-AI/stablediffusion.git && \
-    cd stablediffusion && \
-    pip3 install -r requirements.txt --no-cache-dir && \
-    pip3 install -e . && \
-    cd .. && \
-    rm -rf stablediffusion
+    pip3 install -e .
