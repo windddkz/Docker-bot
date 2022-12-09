@@ -1,8 +1,6 @@
 FROM nvidia/cuda:11.7.0-cudnn8-devel-ubuntu22.04
 
-RUN rm -rf /etc/apt/sources.list.d/cuda.list && \
-    rm -rf /etc/apt/sources.list.d/nvidia-ml.list && \
-    apt-get update -y &&  apt-get install -y \
+RUN apt-get update -y &&  apt-get install -y \
     curl \
     wget \
     ca-certificates \
