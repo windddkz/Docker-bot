@@ -35,7 +35,4 @@ RUN apk add --no-cache supervisor && \
 
 WORKDIR /root
 
-# update configs
-COPY .bashrc .vimrc /root/
-
 CMD ["supervisord", "-c", "/etc/supervisord.conf", "-n"]
