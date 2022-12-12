@@ -9,14 +9,9 @@ ENV RESOLUTION 1920x1080x24
 RUN apk upgrade --update && \
   apk add --no-cache tzdata && \
   cp /usr/share/zoneinfo/${DEFAULT_TZ} /etc/localtime && \
-  date
-
-RUN apk add --no-cache \
-  curl wget git vim zip \
+  apk add --no-cache \
+  curl wget vim \
   xfce4 faenza-icon-theme xvfb x11vnc \
-  exa fd ripgrep \
-  ncdu htop \
-  firefox-esr lynx \
   bash xfce4-terminal tmux neofetch && \
   apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing \
   novnc && \
