@@ -73,7 +73,7 @@ RUN git clone https://github.com/facebookresearch/xformers.git && \
     pip3 install -e .
 
 # additional libs for cv2
-RUN apt-get update -y &&  apt-get install -y \
+RUN sudo apt-get update -y && sudo apt-get install -y \
     libgl1-mesa-glx && \
     libglib2.0-0 && \
     rm -rf /var/lib/apt/lists/*
