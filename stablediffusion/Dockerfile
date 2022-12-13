@@ -11,7 +11,8 @@ RUN rm -rf /etc/apt/sources.list.d/cuda.list && \
     git \
     bzip2 \
     libx11-6 && \
-    libglib2.0-0 && \
+    # libgl1-mesa-glx && \
+    # libglib2.0-0 && \
     rm -rf /var/lib/apt/lists/*
 
 # Create a working directory.
