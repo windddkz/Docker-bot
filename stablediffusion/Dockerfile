@@ -1,6 +1,8 @@
 FROM nvidia/cuda:11.7.0-cudnn8-devel-ubuntu22.04
 
-RUN apt-get update -y &&  apt-get install -y \
+RUN rm -rf /etc/apt/sources.list.d/cuda.list && \
+    rm -rf /etc/apt/sources.list.d/nvidia-ml.list && \
+    apt-get update -y &&  apt-get install -y \
     curl \
     wget \
     ca-certificates \
@@ -9,7 +11,6 @@ RUN apt-get update -y &&  apt-get install -y \
     git \
     bzip2 \
     libx11-6 && \
-    libgl1-mesa-glx && \
     libglib2.0-0 && \
     rm -rf /var/lib/apt/lists/*
 
