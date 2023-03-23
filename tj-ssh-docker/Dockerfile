@@ -1,13 +1,15 @@
 FROM docker.io/nvidia/cuda:11.3.0-devel-ubuntu20.04
 
+USER root
+
 ENV TZ=Asia/Shanghai
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update -qq && apt-get install -y -q --fix-missing \
-        build-essential python3-dev libevent-dev libffi-dev musl-dev\
-        openssh-server software-properties-common \
+        build-essential python3-dev libevent-dev libffi-dev musl-dev \
+        openssh-server software-properties-common vim \
         curl wget git unzip zlib1g-dev locales \
         supervisor nginx sudo net-tools zenity xz-utils \
     && apt autoclean -y \
@@ -32,8 +34,7 @@ RUN pip install --no-cache-dir setuptools wheel \
     && pip install --no-cache-dir torch==1.12.1+cu113 torchvision==0.13.1+cu113 torchaudio==0.12.1 --extra-index-url https://download.pytorch.org/whl/cu113
 
 RUN echo "export PATH=/opt/conda/bin:$PATH" >> /etc/profile \
-    && useradd -rm -d /home/k8s -s /bin/bash -g root -G sudo -u 1000 k8s \
-    && echo 'k8s:k8s' | chpasswd \
+    echo "PermitRootLogin yes" >> /etc/ssh/sshd_config \
     && echo 'root:toor' | chpasswd \
     && service ssh start
 
