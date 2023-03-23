@@ -34,7 +34,7 @@ RUN pip install --no-cache-dir setuptools wheel \
     && pip install --no-cache-dir torch==1.12.1+cu113 torchvision==0.13.1+cu113 torchaudio==0.12.1 --extra-index-url https://download.pytorch.org/whl/cu113
 
 RUN echo "export PATH=/opt/conda/bin:$PATH" >> /etc/profile \
-    echo "PermitRootLogin yes" >> /etc/ssh/sshd_config \
+    && echo "PermitRootLogin yes" >> /etc/ssh/sshd_config \
     && echo 'root:toor' | chpasswd \
     && service ssh start
 
